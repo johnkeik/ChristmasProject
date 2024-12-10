@@ -1,0 +1,54 @@
+# Compiled output for client and server
+/client/dist/
+/client/tmp/
+/client/out-tsc/
+/client/bazel-out
+/server/dist/
+/server/tmp/
+/server/out-tsc/
+/server/bazel-out
+
+# Node.js dependencies for client and server
+/client/node_modules/
+/server/node_modules/
+
+# npm logs
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code settings (specific to client or server)
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# Miscellaneous
+/client/.angular/cache
+/client/.sass-cache/
+/client/connect.lock
+/client/coverage
+/client/libpeerconnection.log
+/client/testem.log
+/client/typings
+/server/.angular/cache
+/server/.sass-cache/
+/server/connect.lock
+/server/coverage
+/server/libpeerconnection.log
+/server/testem.log
+/server/typings
+
+# System files
+.DS_Store
+Thumbs.db

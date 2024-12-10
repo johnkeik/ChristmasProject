@@ -1,0 +1,40 @@
+.container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    background: white url("https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExMTJ0MnA5ZzI2MDhqNGRwMDJoeDg1MDc3bjlwaW9hYnl0bnF5OG43ZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/FoVi0LDjy1XS8/giphy.gif") no-repeat center; 
+    background-size: cover;
+  }
+  
+  .object {
+    width: 620px;
+    height: 520px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    transform: translateY(-105%);
+    display: flex;
+    gap: 20px;
+
+
+  }
+
+  .santa {
+    // transition: all 0.5s;
+
+    animation: hop 0.4s ease-in-out infinite;
+  }
+
+  @keyframes hop {
+    0% {
+        transform: translateY(-5%);
+    }
+    50% {
+        transform: translateY(5%);
+    }
+    100% {
+        transform: translateY(-5%);
+    }
+    
+  }
