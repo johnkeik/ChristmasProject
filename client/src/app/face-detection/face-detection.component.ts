@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import * as faceapi from 'face-api.js';
+import { SocketService } from '../socket.service';
 
 @Component({
   selector: 'app-face-detection',
@@ -10,6 +11,7 @@ import * as faceapi from 'face-api.js';
   styleUrl: './face-detection.component.scss'
 })
 export class FaceDetectionComponent {
+  socketService = inject(SocketService);
   @ViewChild('videoElement') videoElement!: ElementRef<HTMLVideoElement>;
   @ViewChild('canvasElement') canvasElement!: ElementRef<HTMLCanvasElement>;
 
@@ -109,10 +111,13 @@ export class FaceDetectionComponent {
 
         // Save the image
         const imageUrl = faceCanvas.toDataURL('image/png');
-        const link = document.createElement('a');
-        link.href = imageUrl;
-        link.download = 'face-image.png';  // Download face image with this name
-        link.click();
+
+        this.socketService.sendImage(imageUrl);
+
+        // const link = document.createElement('a');
+        // link.href = imageUrl;
+        // link.download = 'face-image.png';  // Download face image with this name
+        // link.click();
       }
       } else {
         console.log('No face detected, try again.');

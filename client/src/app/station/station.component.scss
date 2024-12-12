@@ -19,24 +19,5 @@ img {
     bottom: 0;
     left: 0;
     right: 0;
-}
-
-button {
-    position: absolute;
-    top: 75%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 4rem;
-    font-weight: bold;
-    background-color: red;
-    border-radius: 10px;
-    padding: 0.5rem 3rem;
-    border: none;
-    color: white;
-    display: flex;
-    flex-direction: column;
-
-    span {
-        font-size: 1.5rem;
-    }
+    pointer-events: none;
 }

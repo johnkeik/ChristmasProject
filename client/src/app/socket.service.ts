@@ -56,4 +56,10 @@ export class SocketService {
     }
   }
 
+  sendImage(imageUrl: string) {
+    if (this.socket.readyState === WebSocket.OPEN) {
+      this.socket.send(JSON.stringify({ type: 'image', imageData: imageUrl }));
+    }
+  }
+
 }
