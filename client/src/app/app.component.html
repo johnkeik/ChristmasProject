@@ -7,7 +7,7 @@
   </div>
     <div [style]="{'left': localPosition()+'px'}" class="convoy-container">
     @for (item of [].constructor(socketService.numberOfWagons()); track $index) {
-      <app-wagon [width]="socketService.wagonWidth()" />
+      <app-wagon [width]="socketService.wagonWidth()" [index]="$index" />
     }
     <app-train-engine [width]="socketService.engineWidth()" />
   </div>

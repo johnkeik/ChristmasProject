@@ -40,10 +40,11 @@ export class SocketService {
         this.engineWidth.set(decodedMessage['engineWidth']);
         this.numberOfWagons.set(decodedMessage['numberOfWagons']);
         this.instanceIndex.set(decodedMessage['instanceIndex']);
+        this.passengerImages.set(decodedMessage['passengerImages']);
       }
       if (decodedMessage['event'] == 'PASSENGER_IMAGES') {
         console.log('passenger images', decodedMessage['passengerImages'])
-        this.passengerImages.set(decodedMessage['passengerImages'])
+        this.passengerImages.set(decodedMessage['passengerImages']);
       }
     };
 

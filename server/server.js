@@ -42,7 +42,7 @@ let trainPosition = 0; // edw isws prepei na valoume alli arxiki thesi
 const speed = 5; // px per frame kai kala isws na to kanoyme kai auto dinamika
 const engineWidth = 220.0; // px theoritika
 const wagonWidth = 200; // px theoritika
-const numberOfWagons = 6.0; // prepei na to doume me posa that ksekiname
+let numberOfWagons = Math.ceil(passengerFileNames.length / 5); // prepei na to doume me posa that ksekiname
 let stationIsSet = false;
 
 
@@ -80,6 +80,7 @@ function broadcastTrainPosition() {
           virtualScreenWidth,
           localPosition,
           instanceIndex: index,
+          passengerImages: passengerFileNames
         })
       );
     }
@@ -144,6 +145,7 @@ wss.on("connection", (ws) => {
         } else {
           console.log("Image saved successfully");
           passengerFileNames.push(imageName);
+          numberOfWagons = Math.ceil(passengerFileNames.length / 5);
           ws.send(JSON.stringify({
             event: 'PASSENGER_IMAGES',
             passengerImages: passengerFileNames

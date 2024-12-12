@@ -1,0 +1,26 @@
+.wagon-wrapper {
+    width: 200px;
+    height: 110px;
+    position: relative;
+}
+
+.wagon-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.passengers {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    height: 100%;
+    padding-top: 22px;
+}
+
+.passenger {
+    height: 40px;
+    width: 25px;
+}
