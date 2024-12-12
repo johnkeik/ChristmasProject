@@ -1,29 +1,38 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SocketService {
   private socket: WebSocket;
-  public clientIndex: number | null = null;
+  trainPosition = signal(0);
+  virtualScreenWidth = signal(0);
+  trainWidth = signal(400);
+  wagonWidth = signal(80);
+  numberOfWagons = signal(4);
+  engineWidth = signal(100);
+  instanceIndex = signal(0);
 
   constructor() {
-    this.socket = new WebSocket('wss://192.168.1.3:4201');
+    this.socket = new WebSocket('ws://localhost:8088');
 
     this.socket.onopen = () => {
       console.log('WebSocket connection established');
 
-      this.socket.send(JSON.stringify({ event: 'UPDATE_SCREEN_WIDTH', screenWidth: window.innerWidth }));
+      this.sendWScreenWidth(window.innerWidth);
     };
 
     this.socket.onmessage = (event) => {
-      const message = JSON.parse(event.data);
-
-      if (message.type === 'assignIndex') {
-        this.clientIndex = message.index;
-        console.log(`Assigned client index: ${this.clientIndex}`);
-      } 
-
+      const decodedMessage = JSON.parse(event.data);
+      if (decodedMessage['event'] == 'UPDATE_POSITION') {
+        this.trainPosition.set(decodedMessage['trainPosition']);
+        this.virtualScreenWidth.set(decodedMessage['virtualScreenWidth']);
+        this.trainWidth.set(decodedMessage['trainWidth']);
+        this.wagonWidth.set(decodedMessage['wagonWidth']);
+        this.engineWidth.set(decodedMessage['engineWidth']);
+        this.numberOfWagons.set(decodedMessage['numberOfWagons']);
+        this.instanceIndex.set(decodedMessage['instanceIndex']);
+      }
     };
 
     this.socket.onerror = (error) => {
@@ -35,15 +44,19 @@ export class SocketService {
     };
   }
 
-  startAnimationCallback: (() => void) | null = null;
-
-  listenForStartAnimation(callback: () => void): void {
-    this.startAnimationCallback = callback;
+  sendWScreenWidth(width: number) {
+    if (this.socket.readyState === WebSocket.OPEN) {
+      this.socket.send(JSON.stringify({
+        'event': 'UPDATE_SCREEN_WIDTH',
+        'screenWidth': width,
+      }));
+    }
   }
+
 
   sendImage(imageUrl: string) {
     if (this.socket.readyState === WebSocket.OPEN) {
-      this.socket.send(JSON.stringify({ event: 'IMAGE', imageData: imageUrl }));
+      this.socket.send(JSON.stringify({ type: 'image', imageData: imageUrl }));
     }
   }
 

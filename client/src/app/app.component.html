@@ -1,17 +1,17 @@
-@if(socketService.clientIndex === 0){
-  <app-station />
+@if(isStation){
+<app-station />
 } @else {
-  <div class="container">
-    <div #object class="object">
-      <div class="santa">
-        <app-santa />
-      </div>
-      <img src="../assets/images/stella_scooter.png" alt="">
-    </div>
-
-    @if(socketService.clientIndex === null) {
-    <p>Waiting for connection</p>
-    }
-
+<div class="container">
+  <div style="display: flex; padding: 50px">
+    {{socketService.instanceIndex()}} - {{socketService.trainPosition()}} - {{localPosition()}}
   </div>
+  @if(isTrainVisible()){
+  <div [style]="{'left': localPosition()+'px'}" class="convoy-container">
+    @for (item of [].constructor(socketService.numberOfWagons()); track $index) {
+    <app-wagon [width]="socketService.wagonWidth()" />
+    }
+    <app-train-engine [width]="socketService.engineWidth()" />
+  </div>
+  }
+</div>
 }
