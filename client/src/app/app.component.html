@@ -1,12 +1,17 @@
-<div class="container">
-  <div #object class="object">
-    <div class="santa">
-      <app-santa />
+@if(isStation){
+  <app-station />
+} @else {
+  <div class="container">
+    <div #object class="object">
+      <div class="santa">
+        <app-santa />
+      </div>
+      <img src="../assets/images/stella_scooter.png" alt="">
     </div>
-    <img src="../assets/images/stella_scooter.png" alt="">
-  </div>
 
-  @if(socketService.clientIndex === null) {
-  <p>Waiting for connection</p>
-  }
-</div>
+    @if(socketService.clientIndex === null) {
+    <p>Waiting for connection</p>
+    }
+
+  </div>
+}

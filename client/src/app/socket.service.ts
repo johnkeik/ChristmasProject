@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +12,8 @@ export class SocketService {
 
     this.socket.onopen = () => {
       console.log('WebSocket connection established');
+
+      this.socket.send(JSON.stringify({ type: 'screenWidth', width: window.innerWidth }));
     };
 
     this.socket.onmessage = (event) => {
@@ -25,6 +26,10 @@ export class SocketService {
       } else if (message.type === 'startAnimation') {
         console.log('Received startAnimation event');
         this.startAnimationCallback?.();
+      }
+
+      if(message.type === 'widthSum'){
+        console.log('total width ', message.widthSum)
       }
     };
 
@@ -50,4 +55,5 @@ export class SocketService {
       console.warn('Cannot notify server: clientIndex is null');
     }
   }
+
 }

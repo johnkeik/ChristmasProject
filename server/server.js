@@ -10,8 +10,24 @@ const server = new https.createServer({
 const wss = new WebSocket.Server({ server });
 let clients = [];
 
+const calculateWidthSum = () => {
+  return clients.reduce((sum, client) => sum + (client.width || 0), 0);
+};
+
+// Function to broadcast the width sum to all clients
+const broadcastWidthSum = () => {
+  const widthSum = calculateWidthSum();
+  console.log(`Total width sum: ${widthSum}`);
+  clients.forEach((client) => {
+    if (client.socket.readyState === WebSocket.OPEN) {
+      client.socket.send(JSON.stringify({ type: 'widthSum', widthSum }));
+    }
+  });
+};
+
 wss.on('connection', (socket) => {
-  clients.push(socket);
+  const client = { socket, width: null };
+  clients.push(client);
   const clientIndex = clients.length - 1;
   console.log(`Client ${clientIndex} connected`);
 
@@ -24,6 +40,14 @@ wss.on('connection', (socket) => {
   socket.on('message', (message) => {
     const data = JSON.parse(message);
     console.log(data);
+    console.log("🚀 ~ socket.on ~ data:", data, socket)
+
+    if(data.type === 'screenWidth'){
+      client.width = data.width;
+      console.log(`Client ${clientIndex} screen width: ${client.width}`);
+
+      broadcastWidthSum();
+    }
     if (data.type === 'objectExited') {
       console.log(`Client ${clientIndex} completed animation`);
 
@@ -38,7 +62,8 @@ wss.on('connection', (socket) => {
 
   socket.on('close', () => {
     console.log(`Client ${clientIndex} disconnected`);
-    clients = clients.filter((client) => client !== socket);
+    clients = clients.filter((client) => client.socket !== socket);
+    broadcastWidthSum();
   });
 });
 

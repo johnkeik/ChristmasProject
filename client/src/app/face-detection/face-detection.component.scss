@@ -1,0 +1,21 @@
+.camera-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.video-wrapper {
+  position: relative;
+}
+
+video {
+  display: block;
+  background-color: #000;
+}
+
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
