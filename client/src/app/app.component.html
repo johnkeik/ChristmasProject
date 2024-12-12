@@ -1,17 +1,16 @@
-@if(isStation){
-<app-station />
+@if(socketService.isStation()){
+  <app-station />
 } @else {
 <div class="container">
   <div style="display: flex; padding: 50px">
     {{socketService.instanceIndex()}} - {{socketService.trainPosition()}} - {{localPosition()}}
   </div>
-  @if(isTrainVisible()){
-  <div [style]="{'left': localPosition()+'px'}" class="convoy-container">
+    <div [style]="{'left': localPosition()+'px'}" class="convoy-container">
     @for (item of [].constructor(socketService.numberOfWagons()); track $index) {
-    <app-wagon [width]="socketService.wagonWidth()" />
+      <app-wagon [width]="socketService.wagonWidth()" />
     }
     <app-train-engine [width]="socketService.engineWidth()" />
   </div>
-  }
+  
 </div>
 }

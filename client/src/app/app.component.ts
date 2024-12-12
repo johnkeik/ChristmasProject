@@ -19,26 +19,7 @@ export class AppComponent implements OnInit {
   isAnimating = false;
   isStation = false;
   screenWidth = signal(0);
-  localPosition = computed(() => {
-    let offset = 0.0;
-
-    for (let i = 0; i < this.socketService.instanceIndex(); i++) {
-      offset += this.screenWidth();
-    }
-
-    let relativePosition = this.socketService.trainPosition() - offset;
-    if (relativePosition < -this.socketService.trainWidth()) {
-      relativePosition += this.socketService.virtualScreenWidth() + this.socketService.trainWidth();
-    }
-
-    if (this.socketService.instanceIndex() == 0 &&
-      this.screenWidth() != this.socketService.virtualScreenWidth() &&
-      (this.socketService.trainPosition() + this.socketService.trainWidth()) > this.socketService.virtualScreenWidth()) {
-      relativePosition = -(this.socketService.virtualScreenWidth() - this.socketService.trainPosition());
-    }
-
-    return relativePosition;
-  });
+  localPosition = computed(() => this.socketService.localPosition());
 
   isTrainVisible = computed(() => {
     return this.localPosition() + this.socketService.trainWidth() > 0 && this.localPosition() < this.screenWidth();
