@@ -13,24 +13,17 @@ export class SocketService {
     this.socket.onopen = () => {
       console.log('WebSocket connection established');
 
-      this.socket.send(JSON.stringify({ type: 'screenWidth', width: window.innerWidth }));
+      this.socket.send(JSON.stringify({ event: 'UPDATE_SCREEN_WIDTH', screenWidth: window.innerWidth }));
     };
 
     this.socket.onmessage = (event) => {
       const message = JSON.parse(event.data);
-      console.log('Received message:', message);
 
       if (message.type === 'assignIndex') {
         this.clientIndex = message.index;
         console.log(`Assigned client index: ${this.clientIndex}`);
-      } else if (message.type === 'startAnimation') {
-        console.log('Received startAnimation event');
-        this.startAnimationCallback?.();
-      }
+      } 
 
-      if(message.type === 'widthSum'){
-        console.log('total width ', message.widthSum)
-      }
     };
 
     this.socket.onerror = (error) => {
@@ -46,14 +39,6 @@ export class SocketService {
 
   listenForStartAnimation(callback: () => void): void {
     this.startAnimationCallback = callback;
-  }
-
-  notifyObjectExited(): void {
-    if (this.clientIndex !== null) {
-      this.socket.send(JSON.stringify({ type: 'objectExited' }));
-    } else {
-      console.warn('Cannot notify server: clientIndex is null');
-    }
   }
 
   sendImage(imageUrl: string) {

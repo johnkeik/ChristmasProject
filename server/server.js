@@ -136,6 +136,6 @@ wss.on("connection", (ws) => {
 });
 
 server.listen(PORT, '0.0.0.0', () => {
-    console.log(`WebSocket server is fucking running on https://IP:${PORT}`);
+    console.log(`WebSocket server is fucking running on https://{{IP}}:${PORT}`);
 });
 
