@@ -30,7 +30,12 @@ function calculateTrainWidth() {
 }
 
 function calculateVirtualScreenWidth() {
-    return instances.reduce((total, instance) => total + instance.screenWidth, 0);
+    return instances.reduce((total, instance, index) => {
+        if(index !== 0){
+            return total + instance.screenWidth
+        }
+        return total;
+    }, 0);
 }
 
 function broadcastTrainPosition() {
@@ -75,6 +80,8 @@ setInterval(() => {
 wss.on("connection", (ws) => {
     const instance = { ws, screenWidth: 800 };
     instances.push(instance);
+    const clientIndex = instances.length - 1;
+    ws.send(JSON.stringify({ type: 'assignIndex', index: clientIndex }));
 
     console.log(`New instance gamw. Total instances: ${instances.length}`);
 
