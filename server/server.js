@@ -41,7 +41,7 @@ console.log('Existing images:', passengerFileNames);
 
 let instances = [];
 let trainPosition = 0; // edw isws prepei na valoume alli arxiki thesi
-const speed = 10; // px per frame kai kala isws na to kanoyme kai auto dinamika
+const speed = 7; // px per frame kai kala isws na to kanoyme kai auto dinamika
 const engineWidth = 450.0; // px theoritika
 const wagonWidth = 260.0; // px theoritika
 
@@ -105,7 +105,7 @@ setInterval(() => {
   }
 
   broadcastTrainPosition();
-}, 1000 / 60);
+}, 1000 / 40);
 wss.on("connection", (ws) => {
   const instance = { ws, screenWidth: 800 };
   if (instances.length === 0 && !stationIsSet) {

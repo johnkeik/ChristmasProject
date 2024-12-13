@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
   screenWidth = signal(0);
   localPosition = computed(() => this.socketService.localPosition());
   passengerImages = computed(() => {
-    return this.socketService.passengerImages();
+    return this.socketService.passengerImages().reverse();
   });
 
   isTrainVisible = computed(() => {
