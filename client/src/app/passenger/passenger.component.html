@@ -1,0 +1,8 @@
+<div>
+    <div class="face" [ngClass]="{
+        'santa': type === passengerType.santa, 'penguin': type === passengerType.penguin, 'snowman': type === passengerType.snowman, 'deer': type === passengerType.deer,
+        }">
+        <img [src]="passengerImage()" alt="">
+    </div>
+    <img [width]="240" [height]="400" [src]="'../assets/images/'+type+'.png'" alt="">
+</div>

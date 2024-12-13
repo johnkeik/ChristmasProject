@@ -19,6 +19,7 @@ const server = new https.createServer(
 const wss = new WebSocket.Server({ server });
 
 let passengerFileNames = [];
+let randomImageIndexes = [];
 
 const imagesDir = path.join(__dirname, 'clientImages');
 
@@ -31,6 +32,7 @@ if (!fs.existsSync(imagesDir)) {
   files.forEach((file) => {
     if (file.endsWith('.png')) {
       passengerFileNames.push(file);
+      randomImageIndexes.push(Math.floor(Math.random() * 4));
     }
   });
 }
@@ -40,14 +42,13 @@ console.log('Existing images:', passengerFileNames);
 let instances = [];
 let trainPosition = 0; // edw isws prepei na valoume alli arxiki thesi
 const speed = 5; // px per frame kai kala isws na to kanoyme kai auto dinamika
-const engineWidth = 220.0; // px theoritika
-const wagonWidth = 200; // px theoritika
-let numberOfWagons = Math.ceil(passengerFileNames.length / 5); // prepei na to doume me posa that ksekiname
+const engineWidth = 450.0; // px theoritika
+const wagonWidth = 260.0; // px theoritika
+
 let stationIsSet = false;
 
-
 function calculateTrainWidth() {
-  return engineWidth + wagonWidth * numberOfWagons;
+  return engineWidth + wagonWidth * passengerFileNames.length;
 }
 
 function calculateVirtualScreenWidth() {
@@ -59,12 +60,13 @@ function broadcastTrainPosition() {
   const virtualScreenWidth = calculateVirtualScreenWidth();
 
   instances.forEach((instance, index) => {
-    const instanceStart = instances
-      .slice(0, index)
-      .reduce((total, inst) => total + inst.screenWidth, 0);
+    const instanceStart = instances.slice(0, index).reduce((total, inst) => total + inst.screenWidth, 0);
+    const instanceEnd = instanceStart + instance.screenWidth;
 
+    // Calculate local position relative to the current instance
     const localPosition = trainPosition - instanceStart;
 
+    // Check if the train is visible on this instance's screen
     const trainEnd = localPosition + trainWidth;
     const isVisible = trainEnd > 0 && localPosition < instance.screenWidth;
 
@@ -76,16 +78,18 @@ function broadcastTrainPosition() {
           trainWidth,
           wagonWidth,
           engineWidth,
-          numberOfWagons,
+          numberOfWagons: passengerFileNames.length,
           virtualScreenWidth,
           localPosition,
           instanceIndex: index,
-          passengerImages: passengerFileNames
+          passengerImages: passengerFileNames,
+          randomImageIndexes: randomImageIndexes
         })
       );
     }
   });
 }
+
 
 setInterval(() => {
   if (instances.length === 0) return;
@@ -116,8 +120,7 @@ wss.on("connection", (ws) => {
     if (data.event === "UPDATE_SCREEN_WIDTH") {
       instance.screenWidth = data.screenWidth;
       console.log(
-        `Instance ${instances.indexOf(instance)} updated screen width to ${
-          data.screenWidth
+        `Instance ${instances.indexOf(instance)} updated screen width to ${data.screenWidth
         }px`
       );
     }
@@ -145,10 +148,11 @@ wss.on("connection", (ws) => {
         } else {
           console.log("Image saved successfully");
           passengerFileNames.push(imageName);
-          numberOfWagons = Math.ceil(passengerFileNames.length / 5);
+          randomImageIndexes.push(Math.floor(Math.random() * 4));
           ws.send(JSON.stringify({
             event: 'PASSENGER_IMAGES',
-            passengerImages: passengerFileNames
+            passengerImages: passengerFileNames,
+            randomImageIndexes: randomImageIndexes
           }))
         }
       });

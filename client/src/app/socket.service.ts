@@ -13,11 +13,12 @@ export class SocketService {
   engineWidth = signal(100);
   instanceIndex = signal(0);
   localPosition = signal(0);
+  randomImageIndexes = signal([]);
   isStation = signal(false);
   passengerImages = signal([]);
 
   constructor() {
-    this.socket = new WebSocket('wss://192.168.1.3:4201');
+    this.socket = new WebSocket('wss://192.168.50.254:4201');
 
     this.socket.onopen = () => {
       console.log('WebSocket connection established');
@@ -27,7 +28,7 @@ export class SocketService {
 
     this.socket.onmessage = (event) => {
       const decodedMessage = JSON.parse(event.data);
-      if(decodedMessage['event'] === 'SET_STATION'){
+      if (decodedMessage['event'] === 'SET_STATION') {
         this.isStation.set(true);
       }
 
@@ -41,6 +42,7 @@ export class SocketService {
         this.numberOfWagons.set(decodedMessage['numberOfWagons']);
         this.instanceIndex.set(decodedMessage['instanceIndex']);
         this.passengerImages.set(decodedMessage['passengerImages']);
+        this.randomImageIndexes.set(decodedMessage['randomImageIndexes']);
       }
       if (decodedMessage['event'] == 'PASSENGER_IMAGES') {
         console.log('passenger images', decodedMessage['passengerImages'])

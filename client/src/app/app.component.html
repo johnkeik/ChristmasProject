@@ -1,16 +1,18 @@
 @if(socketService.isStation()){
-  <app-station />
+<app-station />
 } @else {
 <div class="container">
   <div style="display: flex; padding: 50px">
     {{socketService.instanceIndex()}} - {{socketService.trainPosition()}} - {{localPosition()}}
   </div>
-    <div [style]="{'left': localPosition()+'px'}" class="convoy-container">
-    @for (item of [].constructor(socketService.numberOfWagons()); track $index) {
-      <app-wagon [width]="socketService.wagonWidth()" [index]="$index" />
+  <div [style]="{'left': localPosition()+'px'}" class="convoy-container">
+    @for (passengerImage of passengerImages(); track $index) {
+    <app-wagon [width]="socketService.wagonWidth()" [index]="$index" [passengerImage]="passengerImage"
+      [randomPassengerImageIndex]="socketService.randomImageIndexes()[$index]" />
     }
     <app-train-engine [width]="socketService.engineWidth()" />
   </div>
-  
+
 </div>
 }
+<ngx-particles [id]="snow" [options]="snowOptions"></ngx-particles>
