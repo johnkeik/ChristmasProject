@@ -34,10 +34,19 @@ button {
   color: white;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   text-wrap: nowrap;
   z-index: 10000;
+  width: 600px;
+  height: 100px;
+
+  &:disabled {
+    background-color: rgb(88, 21, 21);
+  }
 
   span {
       font-size: 1.5rem;
-  }
+  } 
 }

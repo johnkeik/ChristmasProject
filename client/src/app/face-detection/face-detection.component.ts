@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Host, HostListener, inject, Output, ViewChild } from '@angular/core';
 import * as faceapi from 'face-api.js';
 import { SocketService } from '../socket.service';
 
@@ -14,8 +14,16 @@ export class FaceDetectionComponent {
   socketService = inject(SocketService);
   @ViewChild('videoElement') videoElement!: ElementRef<HTMLVideoElement>;
   @ViewChild('canvasElement') canvasElement!: ElementRef<HTMLCanvasElement>;
-
+  buttonDisabled = false;
+  @Output() success = new EventEmitter<boolean>();
   loading = true;
+
+  @HostListener('document:keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent) {
+    if(event.code === 'Space' || event.code === 'Enter'){
+      if(!this.buttonDisabled) this.saveImage();
+    }
+  }
 
   async ngOnInit() {
     // Load face detection models
@@ -112,8 +120,12 @@ export class FaceDetectionComponent {
         // Save the image
         const imageUrl = faceCanvas.toDataURL('image/png');
 
+        this.buttonDisabled = true;
         this.socketService.sendImage(imageUrl);
-
+        this.success.emit();
+        setTimeout(() => {
+          this.buttonDisabled = false;
+        },5000)
         // const link = document.createElement('a');
         // link.href = imageUrl;
         // link.download = 'face-image.png';  // Download face image with this name

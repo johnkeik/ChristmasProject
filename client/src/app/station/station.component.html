@@ -1,5 +1,20 @@
 <div class="camera-frame">
-    <app-face-detection />
+  <app-face-detection (success)="toggleBanner()" />
+</div>
+<div class="frame-wrapper">
+  <img src="../../assets/images/frame.png" alt="" />
 </div>
 
-<img src="../../assets/images/frame.png" alt="">
+
+<div class="join-banner" [ngClass]="{visible: !showBanner}">
+    <span>Join the Ride</span>
+    <span>(SPACE OR ENTER)</span>
+</div>
+
+<div class="alert-banner" [ngClass]="{visible: showBanner}">
+    <span>
+      Great, you are now part of the ride.
+    </span>
+    <span>Find your self on the wagons!!!!</span>
+</div>
+

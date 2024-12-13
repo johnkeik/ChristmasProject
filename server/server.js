@@ -41,7 +41,7 @@ console.log('Existing images:', passengerFileNames);
 
 let instances = [];
 let trainPosition = 0; // edw isws prepei na valoume alli arxiki thesi
-const speed = 5; // px per frame kai kala isws na to kanoyme kai auto dinamika
+const speed = 10; // px per frame kai kala isws na to kanoyme kai auto dinamika
 const engineWidth = 450.0; // px theoritika
 const wagonWidth = 260.0; // px theoritika
 
@@ -163,13 +163,22 @@ wss.on("connection", (ws) => {
   });
 
   ws.on("close", () => {
-    const index = instances.findIndex((inst) => inst.ws === ws);
-    if (index !== -1) {
-      instances.splice(index, 1);
-      console.log(
-        `Instance disconnected. Total instances: ${instances.length}`
-      );
+    if(instances.length === 0){
+      stationIsSet = false;
+    } else {
+      const index = instances.findIndex((inst) => inst.ws === ws);
+      if (index !== -1) {
+        instances.splice(index, 1);
+        if(instances.length === 0){
+          stationIsSet = false;
+        }
+        console.log(
+          `Instance disconnected. Total instances: ${instances.length}`
+        );
+      }
     }
+
+
   });
 });
 

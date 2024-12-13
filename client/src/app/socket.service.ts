@@ -18,7 +18,7 @@ export class SocketService {
   passengerImages = signal([]);
 
   constructor() {
-    this.socket = new WebSocket('wss://192.168.50.254:4201');
+    this.socket = new WebSocket('wss://172.23.1.118:4201');
 
     this.socket.onopen = () => {
       console.log('WebSocket connection established');
