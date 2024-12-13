@@ -1,9 +1,10 @@
-@if(socketService.isStation()){
-<app-station />
-} @else {
 <div class="container">
-  <div style="display: flex; padding: 50px">
-    {{socketService.instanceIndex()}} - {{socketService.trainPosition()}} - {{localPosition()}}
+  @if(socketService.isStation()){
+  <app-station />
+  } @else {
+
+  <div>
+    <app-neon-text title="1" subtitle="Vote for" />
   </div>
   <div [style]="{'left': localPosition()+'px'}" class="convoy-container">
     @for (passengerImage of passengerImages(); track $index) {
@@ -13,6 +14,7 @@
     <app-train-engine [width]="socketService.engineWidth()" />
   </div>
 
+  }
+
 </div>
-}
 <ngx-particles [id]="snow" [options]="snowOptions"></ngx-particles>
