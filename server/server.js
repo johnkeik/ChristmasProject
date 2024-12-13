@@ -64,8 +64,11 @@ function broadcastTrainPosition() {
     const instanceEnd = instanceStart + instance.screenWidth;
 
     // Calculate local position relative to the current instance
-    const localPosition = trainPosition - instanceStart;
+    let localPosition = trainPosition - instanceStart;
 
+    if (index === 0 && trainPosition > virtualScreenWidth - trainWidth) {
+      localPosition = -virtualScreenWidth + trainPosition;
+    }
     // Check if the train is visible on this instance's screen
     const trainEnd = localPosition + trainWidth;
     const isVisible = trainEnd > 0 && localPosition < instance.screenWidth;
@@ -98,7 +101,7 @@ setInterval(() => {
   trainPosition += speed;
 
   if (trainPosition > virtualScreenWidth) {
-    trainPosition = -calculateTrainWidth();
+    trainPosition = 0;
   }
 
   broadcastTrainPosition();
