@@ -66,8 +66,16 @@ function broadcastTrainPosition() {
     // Calculate local position relative to the current instance
     let localPosition = trainPosition - instanceStart;
 
-    if (index === 0 && trainPosition > virtualScreenWidth - trainWidth) {
-      localPosition = -virtualScreenWidth + trainPosition;
+    if (trainPosition > virtualScreenWidth - trainWidth) {
+      const newStart = -virtualScreenWidth + trainPosition;
+      if (index === 0) {
+        localPosition = newStart;
+      } else {
+        if (newStart + trainWidth > instanceStart) {
+          localPosition = newStart - instanceStart;
+        }
+
+      }
     }
     // Check if the train is visible on this instance's screen
     const trainEnd = localPosition + trainWidth;
@@ -163,13 +171,13 @@ wss.on("connection", (ws) => {
   });
 
   ws.on("close", () => {
-    if(instances.length === 0){
+    if (instances.length === 0) {
       stationIsSet = false;
     } else {
       const index = instances.findIndex((inst) => inst.ws === ws);
       if (index !== -1) {
         instances.splice(index, 1);
-        if(instances.length === 0){
+        if (instances.length === 0) {
           stationIsSet = false;
         }
         console.log(

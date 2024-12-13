@@ -21,7 +21,6 @@ export class PassengerComponent implements OnInit {
 
   ngOnInit(): void {
     this.type = this._getRandomePassengerType();
-    console.log('passengerType', this.type);
   }
 
 
