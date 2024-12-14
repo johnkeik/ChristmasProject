@@ -115,7 +115,7 @@ setInterval(() => {
   }
 
   broadcastTrainPosition();
-}, 1000 / 40);
+}, 1000 / 50);
 wss.on("connection", (ws) => {
   const instance = { ws, screenWidth: 800 };
   if (instances.length === 0 && !stationIsSet) {

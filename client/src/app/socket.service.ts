@@ -1,5 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 
+export const SERVER_IP = '172.23.1.118:4201';
 @Injectable({
   providedIn: 'root',
 })
@@ -19,7 +20,7 @@ export class SocketService {
   passengerImages = signal([]);
 
   constructor() {
-    this.socket = new WebSocket('wss://172.23.1.118:4201');
+    this.socket = new WebSocket(`wss://${SERVER_IP}`);
 
     this.socket.onopen = () => {
       console.log('WebSocket connection established');

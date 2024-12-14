@@ -1,7 +1,7 @@
 <div [style.width]="width()+'px'" class="wagon-wrapper">
     <app-passenger style="position: absolute; left: 0;bottom: 20%"
         [randomPassengerImageIndex]="randomPassengerImageIndex()" [index]="index()"
-        [passengerImage]="'https://192.168.1.3:4201/clientImages/'+passengerImage()"></app-passenger>
+        [passengerImage]="'https://'+serverIp+'/clientImages/'+passengerImage()"></app-passenger>
     <img class="wagon-image" [width]="width()" src="../assets/images/wagon.png" alt="">
     <!-- <div class="passengers">
         @for (image of passengerImages(); track $index) {
