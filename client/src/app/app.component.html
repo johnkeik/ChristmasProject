@@ -12,6 +12,11 @@
       [randomPassengerImageIndex]="socketService.randomImageIndexes()[$index]" />
     }
     <app-train-engine [width]="socketService.engineWidth()" />
+
+    <div [style]="{'min-width': socketService.stellaWidth()+'px'}" class="stella-wrapper">
+      <img class="stella" src="../assets/images/stella_shouting.png" alt="">
+    </div>
+
   </div>
 
   }

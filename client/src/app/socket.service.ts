@@ -11,6 +11,7 @@ export class SocketService {
   wagonWidth = signal(80);
   numberOfWagons = signal(4);
   engineWidth = signal(100);
+  stellaWidth = signal(450);
   instanceIndex = signal(0);
   localPosition = signal(0);
   randomImageIndexes = signal([]);
@@ -39,6 +40,7 @@ export class SocketService {
         this.trainWidth.set(decodedMessage['trainWidth']);
         this.wagonWidth.set(decodedMessage['wagonWidth']);
         this.engineWidth.set(decodedMessage['engineWidth']);
+        this.stellaWidth.set(decodedMessage['stellaWidth']);
         this.numberOfWagons.set(decodedMessage['numberOfWagons']);
         this.instanceIndex.set(decodedMessage['instanceIndex']);
         this.passengerImages.set(decodedMessage['passengerImages']);

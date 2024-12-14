@@ -12,27 +12,32 @@
       height: 200px;
       position: absolute;
       bottom: 10px;
+      overflow: visible;
+    }
+
+
+    .stella-wrapper {
+      height: 100%;
+      position: relative;
+    }
+    .stella {
+      position: absolute;
+      bottom: 10px;
+      width: 350px;
+      animation: accelerate 5s linear infinite;
     }
   
   }
-  
 
-  
-  .santa {
-    // transition: all 0.5s;
-
-    animation: hop 0.4s ease-in-out infinite;
-  }
-
-  @keyframes hop {
-    0% {
-        transform: translateY(-5%);
+  @keyframes accelerate {
+    0%{ 
+      left: -20%;
     }
+
     50% {
-        transform: translateY(5%);
+      left: 0%;
     }
     100% {
-        transform: translateY(-5%);
+      left: -20%;
     }
-    
   }

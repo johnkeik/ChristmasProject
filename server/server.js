@@ -44,11 +44,12 @@ let trainPosition = 0; // edw isws prepei na valoume alli arxiki thesi
 const speed = 7; // px per frame kai kala isws na to kanoyme kai auto dinamika
 const engineWidth = 450.0; // px theoritika
 const wagonWidth = 260.0; // px theoritika
+const stellaWidth = 450.0;
 
 let stationIsSet = false;
 
 function calculateTrainWidth() {
-  return engineWidth + wagonWidth * passengerFileNames.length;
+  return stellaWidth + engineWidth + wagonWidth * passengerFileNames.length;
 }
 
 function calculateVirtualScreenWidth() {
@@ -89,6 +90,7 @@ function broadcastTrainPosition() {
           trainWidth,
           wagonWidth,
           engineWidth,
+          stellaWidth,
           numberOfWagons: passengerFileNames.length,
           virtualScreenWidth,
           localPosition,

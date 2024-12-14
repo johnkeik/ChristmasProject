@@ -13,11 +13,12 @@ import {
 } from "@tsparticles/engine";
 import { loadSlim } from "@tsparticles/slim";
 import { NeonTextComponent } from "./neon-text/neon-text.component";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, SantaComponent, StationComponent, WagonComponent, TrainEngineComponent, NgxParticlesModule, NeonTextComponent],
+  imports: [CommonModule,StationComponent, WagonComponent, TrainEngineComponent, NgxParticlesModule, NeonTextComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
